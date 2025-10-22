@@ -1,0 +1,190 @@
+/* Terminal Color Scheme (Catppuccin-inspired) */
+:root {
+  --terminal-bg: #1e1e2e;
+  --terminal-fg: #cdd6f4;
+  --terminal-accent: #89b4fa;
+  --terminal-green: #a6e3a1;
+  --terminal-yellow: #f9e2af;
+  --terminal-red: #f38ba8;
+}
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  background-color: var(--terminal-bg);
+}
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  line-height: 1.6;
+  min-height: 100vh;
+  background-color: var(--terminal-bg);
+  color: var(--terminal-fg);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main outer container */
+body > [is-~="view"] {
+  flex: 1;
+  width: 100%;
+  max-width: 120ch;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+body > [is-~="view"] > [is-~="view-content"] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content area should grow to push footer down */
+main {
+  flex: 1;
+}
+
+/* Reset WebTUI view defaults */
+[is-~="view-content"] {
+  background-color: transparent !important;
+  padding: 1rem;
+}
+
+/* Terminal-style container */
+.terminal-container {
+  padding: 1rem;
+}
+
+/* Command prompt styling */
+.prompt {
+  color: var(--terminal-green);
+  font-weight: bold;
+}
+
+.prompt::before {
+  content: "$ ";
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--terminal-accent);
+  margin-bottom: 0.5rem;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+/* Link styling */
+a {
+  color: var(--terminal-accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--terminal-green);
+  text-decoration: underline;
+}
+
+/* Post meta info */
+.post-meta {
+  opacity: 0.7;
+  font-size: 0.9em;
+  color: var(--terminal-yellow);
+}
+
+/* Lists */
+ul, ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Code blocks */
+code {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+pre {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 3px solid var(--terminal-accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  opacity: 0.8;
+}
+
+/* Spacing utilities */
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+
+/* Content boxes for posts and pages */
+.post [is-~="view-content"],
+.page [is-~="view-content"] {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(137, 180, 250, 0.2);
+  border-radius: 4px;
+}
+
+.home [is-~="view-content"] {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(137, 180, 250, 0.15);
+  border-radius: 4px;
+}
+
+/* Navigation styling */
+nav ul {
+  list-style: none;
+  margin-left: 0;
+}
+
+nav li {
+  margin-bottom: 0.25rem;
+}
+
+/* Footer - will stick to bottom when content is short */
+footer {
+  margin-top: auto;
+}
+
+footer [is-~="view-content"] {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  padding: 1rem;
+  border-top: 1px solid rgba(137, 180, 250, 0.2);
+}

@@ -1,0 +1,45 @@
+---
+layout: default
+---
+
+<div class="home">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  {{ content }}
+
+  <div class="mb-3">
+    <h2><span class="prompt">cat</span> posts.log</h2>
+  </div>
+
+  {%- if site.posts.size > 0 -%}
+    <ul marker-="tree" style="list-style: none;">
+      {%- for post in site.posts -%}
+      <li class="mb-2">
+        <div is-="view">
+          <div is-="view-content">
+            <h3 class="mb-1">
+              <a href="{{ post.url | relative_url }}">
+                {{ post.title | escape }}
+              </a>
+            </h3>
+            <p class="post-meta">
+              <time datetime="{{ post.date | date_to_xmlschema }}">
+                {{ post.date | date: "%Y-%m-%d %H:%M" }}
+              </time>
+              {%- if post.author -%}
+                • {{ post.author }}
+              {%- endif -%}
+            </p>
+            {%- if post.excerpt -%}
+              <p class="mt-1">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+</div>

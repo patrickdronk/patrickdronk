@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+{%- include head.html -%}
+
+<body>
+
+  <div is-="view">
+    <div is-="view-content">
+      <header class="terminal-container mb-3">
+        <h1><a href="{{ "/" | relative_url }}">{{ site.title | default: "Terminal Blog" }}</a></h1>
+        <p class="post-meta">{{ site.description | escape }}</p>
+        
+        {%- include navigation.html -%}
+      </header>
+
+      <main class="terminal-container" is-="typography-block">
+        {{ content }}
+      </main>
+
+      <footer class="terminal-container mt-3">
+        <div is-="view">
+          <div is-="view-content">
+            <p class="post-meta">
+              <span class="prompt">whoami</span>
+              {{ site.title | escape }} &copy; {{ 'now' | date: "%Y" }}
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+</body>
+</html>

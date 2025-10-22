@@ -1,0 +1,42 @@
+---
+layout: default
+---
+
+<article class="post">
+  <div is-="view">
+    <div is-="view-content">
+      <header class="post-header mb-3">
+        <h1 class="post-title">{{ page.title | escape }}</h1>
+        <p class="post-meta">
+          <span class="prompt">file</span>
+          <time datetime="{{ page.date | date_to_xmlschema }}">
+            {{ page.date | date: "%Y-%m-%d %H:%M:%S" }}
+          </time>
+          {%- if page.author -%}
+            • <span itemprop="author">{{ page.author }}</span>
+          {%- endif -%}
+          {%- if page.categories.size > 0 -%}
+            • {{ page.categories | join: ", " }}
+          {%- endif -%}
+        </p>
+      </header>
+
+      <div class="post-content">
+        {{ content }}
+      </div>
+
+      {%- if page.tags.size > 0 -%}
+      <footer class="post-footer mt-3">
+        <p class="post-meta">
+          <span class="prompt">tags</span>
+          {{ page.tags | join: ", " }}
+        </p>
+      </footer>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <p><a href="{{ "/" | relative_url }}"><span class="prompt">cd</span> Back to posts</a></p>
+  </div>
+</article>
