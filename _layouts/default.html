@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+<html lang="{{ page.lang | default: site.lang | default: "en" }}" data-webtui-theme="catppuccin-mocha">
 
 {%- include head.html -%}
 
@@ -8,9 +8,6 @@
   <div is-="view">
     <div is-="view-content">
       <header class="terminal-container mb-3">
-        <h1><a href="{{ "/" | relative_url }}">{{ site.title | default: "Terminal Blog" }}</a></h1>
-        <p class="post-meta">{{ site.description | escape }}</p>
-        
         {%- include navigation.html -%}
       </header>
 

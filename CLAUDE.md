@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a Jekyll-based static site with a custom terminal UI theme built using WebTUI. The site uses Jekyll as a static site generator but has fully custom layouts that provide a terminal/command-line aesthetic.
 
-## Development Commands
+th## Development Commands
 
 ### Local Development Server
 ```bash
