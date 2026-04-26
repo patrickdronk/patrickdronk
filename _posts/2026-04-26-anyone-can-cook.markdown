@@ -35,4 +35,4 @@ I think it's the same with software engineering. The craft remains. What disappe
 
 ## Both True
 
-Ego said a great artist can come from anywhere. I believe that. But the difference between IKEA and craftsmanship only becomes visible when it's too late. Both are true, and I haven't worked out which one weighs more. If you have thoughts, I'd love to hear them.
+Ego said a great artist can come from anywhere. I believe that. But the difference between IKEA and craftsmanship only becomes visible when it's too late. Both are true, and I haven't worked out which one weighs more.
