@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}" data-webtui-theme="catppuccin-mocha">
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
 
 {%- include head.html -%}
 
 <body>
 
+  <header class="bar">
+    {%- include navigation.html -%}
+  </header>
+
   <div is-="view">
     <div is-="view-content">
-      <header class="terminal-container mb-3">
-        {%- include navigation.html -%}
-      </header>
-
       <main class="terminal-container" is-="typography-block">
         {{ content }}
       </main>

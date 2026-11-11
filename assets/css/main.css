@@ -1,37 +1,46 @@
-/* Catppuccin Mocha Color Palette - Full Definition */
+/* Hackerman: the blog wears the same theme as my desktop.
+   Soft mint on deep blue-black, a thin bar on top, and content in "windows"
+   with a rounded border that lights up when it has the focus.
+
+   Built on WebTUI. All of its rules live in CSS layers, so the plain rules in
+   this file always win; no !important needed. */
+
 :root {
-  /* Backgrounds */
-  --background0: #1e1e2e; /* base */
-  --background1: #313244; /* surface0 */
-  --background2: #45475a; /* surface1 */
-  --mantle: #181825;
+  color-scheme: dark;
 
-  /* Foregrounds */
-  --foreground0: #cdd6f4; /* text */
-  --foreground1: #bac2de; /* subtext1 */
-  --foreground2: #a6adc8; /* subtext0 */
+  /* Palette (the terminal's own colours) */
+  --bg-deep: #07080f;     /* the desktop, behind the windows */
+  --bg: #0B0C16;          /* window background */
+  --surface: #1a1d2e;     /* border of a window without focus, code, lines */
+  --surface-2: #2a2e45;
+  --muted: #6a6e95;       /* decoration only: too dim for text you must read */
+  --subtle: #9ea3c0;      /* meta lines and captions */
+  --text: #c4dbe3;        /* prose: the terminal's foreground, a notch softer */
+  --fg: #ddf7ff;          /* the terminal's foreground */
+  --mint: #82FB9C;        /* headings and the prompt */
+  --mint-bright: #a8ffc0;
+  --cyan: #2cffcc;        /* the accent: focus border and links */
+  --purple: #bb9af7;      /* keywords in code */
+  --yellow: #ffcc55;      /* numbers in code */
 
-  /* Accent Colors */
-  --rosewater: #f5e0dc;
-  --flamingo: #f2cdcd;
-  --pink: #f5c2e7;
-  --mauve: #cba6f7;
-  --red: #f38ba8;
-  --maroon: #eba0ac;
-  --peach: #fab387;
-  --yellow: #f9e2af;
-  --green: #a6e3a1;
-  --teal: #94e2d5;
-  --sky: #89dceb;
-  --sapphire: #74c7ec;
-  --blue: #89b4fa;
-  --lavender: #b4befe;
+  --radius: 10px;
+  --border: 2px;
+  --gap: 1rem;            /* space between windows */
+  --font: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Courier New', monospace;
 
-  /* Legacy aliases for existing code */
-  --terminal-bg: var(--background0);
+  /* The names WebTUI reads */
+  --background0: var(--bg-deep);
+  --background1: var(--surface);
+  --background2: var(--surface-2);
+  --background3: var(--muted);
+  --foreground0: var(--fg);
+  --foreground1: var(--text);
+  --foreground2: var(--subtle);
+  --font-family: var(--font);
+  --box-border-color: var(--surface);
 }
 
-/* Reset and Base Styles */
+/* Reset and base */
 * {
   margin: 0;
   padding: 0;
@@ -40,25 +49,112 @@
 
 html {
   height: 100%;
-  background-color: var(--terminal-bg);
+  background-color: var(--bg-deep);
+  scrollbar-color: var(--surface-2) var(--bg-deep);
 }
 
 body {
-  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+  font-family: var(--font);
   line-height: 1.7;
   min-height: 100vh;
-  background-color: var(--terminal-bg);
-  color: var(--foreground1);
+  color: var(--text);
   margin: 0;
   display: flex;
   flex-direction: column;
+  /* A faint glow in two corners, like light through a wallpaper. */
+  background:
+    radial-gradient(60rem 32rem at 88% -6rem, rgba(44, 255, 204, 0.1), transparent 70%),
+    radial-gradient(48rem 30rem at -5% calc(100% + 6rem), rgba(122, 162, 247, 0.07), transparent 70%),
+    var(--bg-deep);
   /* WebTUI sets word-break: break-all on body, which cuts words in half at the
      end of a line. Break between words; only split a word that cannot fit. */
   word-break: normal;
   overflow-wrap: break-word;
+  -webkit-text-size-adjust: 100%;
 }
 
-/* Main outer container */
+::selection {
+  background-color: #2C5240;
+  color: #ffffff;
+}
+
+/* WebTUI removes every outline; give keyboard focus the accent border back. */
+:focus-visible {
+  outline: var(--border) solid var(--cyan);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* The bar: one thin line across the top, like the one on the desktop */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: rgba(11, 12, 22, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--surface);
+}
+
+.top-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 1.5rem;
+  min-height: 2.25rem;
+  padding: 0 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+}
+
+.site-title {
+  color: var(--mint);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.site-title:hover {
+  color: var(--mint-bright);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+}
+
+/* Pages are numbered like workspaces; the one you are on is lit. */
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 1ch;
+  min-height: 2.25rem;
+  padding: 0 0.75rem;
+  color: var(--subtle);
+  white-space: nowrap;
+  border-bottom: var(--border) solid transparent;
+}
+
+.nav-links a .space-key {
+  color: var(--muted);
+}
+
+.nav-links a:hover {
+  color: var(--fg);
+  background-color: var(--surface);
+  text-decoration: none;
+}
+
+.nav-links a.is-active,
+.nav-links a.is-active .space-key {
+  color: var(--cyan);
+}
+
+.nav-links a.is-active {
+  border-bottom-color: var(--cyan);
+}
+
+/* Page frame */
 body > [is-~="view"] {
   flex: 1;
   width: 100%;
@@ -74,25 +170,23 @@ body > [is-~="view"] > [is-~="view-content"] {
   flex-direction: column;
 }
 
-/* Main content area should grow to push footer down */
+/* Main content grows, so the footer stays at the bottom */
 main {
   flex: 1;
 }
 
-/* Reset WebTUI view defaults */
 [is-~="view-content"] {
-  background-color: transparent !important;
-  padding: 1rem;
+  background-color: transparent;
+  padding: var(--gap);
 }
 
-/* Terminal-style container */
 .terminal-container {
-  padding: 1rem;
+  padding: var(--gap);
 }
 
-/* Command prompt styling */
+/* Command prompt */
 .prompt {
-  color: var(--green);
+  color: var(--mint);
   font-weight: bold;
 }
 
@@ -102,20 +196,28 @@ main {
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-  color: var(--sky);
+  font-family: var(--font);
+  color: var(--mint);
   margin-bottom: 0.75rem;
   line-height: 1.3;
 }
 
 h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; margin-top: 2.5rem; }
-h3 { font-size: 1.25rem; margin-top: 2rem; }
+h2 { font-size: 1.4rem; margin-top: 2.5rem; }
+h3 { font-size: 1.15rem; margin-top: 2rem; }
 
-/* Paragraph spacing — markdown wraps prose in <p>, give it room to breathe.
-   WebTUI resets font-family on its components to generic monospace, so re-assert. */
+/* In a post, a heading shows its Markdown, as it would in an editor. */
+.post-content h2::before {
+  content: "## ";
+  color: var(--muted);
+  font-weight: normal;
+}
+
+/* Prose. WebTUI resets font and line height on these, so say it again. */
 p, li, blockquote {
-  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+  font-family: var(--font);
   line-height: 1.7;
+  color: var(--text);
 }
 
 p {
@@ -126,15 +228,157 @@ p:last-child {
   margin-bottom: 0;
 }
 
-/* Inline images in post content */
+strong {
+  color: var(--fg);
+}
+
+/* Links */
+a {
+  color: var(--cyan);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+a:hover {
+  color: var(--mint-bright);
+  text-decoration: underline;
+}
+
+.post-content a,
+.page-content a {
+  text-decoration: underline;
+  text-decoration-color: rgba(44, 255, 204, 0.4);
+  text-underline-offset: 3px;
+}
+
+/* Post meta line */
+.post-meta {
+  font-size: 0.875em;
+  color: var(--subtle);
+}
+
+/* Lists */
+ul, ol {
+  margin-bottom: 1.1rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+ol {
+  list-style-position: outside;
+  padding-left: 3ch;
+}
+
+/* A dash as the bullet, hanging in the margin so wrapped lines stay aligned. */
+.post-content ul > li,
+.page-content ul > li {
+  position: relative;
+  padding-left: 2ch;
+}
+
+.post-content ul > li::before,
+.page-content ul > li::before {
+  content: "-";
+  position: absolute;
+  left: 0;
+  color: var(--mint);
+}
+
+/* Code */
+code {
+  font-family: var(--font);
+  font-size: 0.92em;
+  background-color: var(--surface);
+  color: var(--mint-bright);
+  padding: 0.1em 0.45em;
+  border-radius: 4px;
+}
+
+pre {
+  background: var(--bg-deep);
+  border: 1px solid var(--surface);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.5;
+  margin-bottom: 1.1rem;
+}
+
+pre code {
+  background-color: transparent;
+  color: var(--fg);
+  padding: 0;
+}
+
+/* Code colours as in the editor. The class names come from Rouge, Jekyll's
+   highlighter: c = comment, k = keyword, s = string, m = number, n = name. */
+.highlight [class^="c"] {
+  color: var(--subtle);
+  font-style: italic;
+}
+
+.highlight [class^="k"] {
+  color: var(--purple);
+  font-weight: bold;
+}
+
+.highlight [class^="s"] {
+  color: var(--mint);
+}
+
+.highlight [class^="m"],
+.highlight .il,
+.highlight .kc {
+  color: var(--yellow);
+  font-weight: normal;
+}
+
+.highlight .nf,
+.highlight .fm {
+  color: var(--mint);
+  font-weight: bold;
+}
+
+.highlight .nb,
+.highlight .nc,
+.highlight .nn {
+  color: var(--cyan);
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: var(--border) solid var(--mint);
+  padding-left: 1rem;
+  margin: 1.25rem 0;
+  color: var(--subtle);
+}
+
+blockquote::before {
+  content: none;
+}
+
+blockquote p {
+  color: inherit;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--surface);
+  margin: 2rem 0;
+}
+
+/* Images in a post or page */
 .post-content img,
 .page-content img {
   max-width: 100%;
   height: auto;
   display: block;
   margin: 1.5rem auto;
-  border-radius: 4px;
-  border: 1px solid rgba(137, 180, 250, 0.2);
+  border-radius: 8px;
+  border: var(--border) solid var(--surface);
 }
 
 /* A picture with a caption */
@@ -144,18 +388,22 @@ p:last-child {
 
 .post-content figure img {
   margin: 0 auto;
+  transition: border-color 0.15s;
+}
+
+.post-content figure a:hover img {
+  border-color: var(--cyan);
 }
 
 .post-content figcaption {
   margin-top: 0.6rem;
   font-size: 0.85em;
   line-height: 1.5;
-  color: var(--foreground2);
+  color: var(--subtle);
   text-align: center;
 }
 
-/* Tables. WebTUI draws its cell lines with pseudo-elements, which land on top
-   of the text here; ours are plain borders. */
+/* Tables. WebTUI draws its cell lines with pseudo-elements; ours are plain borders. */
 .post-content table,
 .page-content table {
   width: 100%;
@@ -173,17 +421,18 @@ p:last-child {
   text-align: left;
   vertical-align: top;
   padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid rgba(137, 180, 250, 0.2);
+  border-bottom: 1px solid var(--surface);
 }
 
 .post-content th,
 .page-content th {
-  color: var(--sky);
+  color: var(--mint);
+  border-bottom-color: var(--muted);
 }
 
 .post-content td:first-child,
 .page-content td:first-child {
-  color: var(--foreground2);
+  color: var(--subtle);
 }
 
 .post-content tr:last-child td,
@@ -213,64 +462,6 @@ p:last-child {
   content: none;
 }
 
-/* Link styling */
-a {
-  color: var(--sky);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-a:hover {
-  color: var(--green);
-  text-decoration: underline;
-}
-
-/* Post meta info */
-.post-meta {
-  opacity: 0.7;
-  font-size: 0.9em;
-  color: var(--mauve);
-}
-
-/* Lists */
-ul, ol {
-  margin-left: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-li {
-  margin-bottom: 0.5rem;
-}
-
-/* Code blocks */
-code {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-  font-family: 'Courier New', Courier, monospace;
-}
-
-pre {
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 1rem;
-  border-radius: 5px;
-  overflow-x: auto;
-  margin-bottom: 1rem;
-}
-
-pre code {
-  background-color: transparent;
-  padding: 0;
-}
-
-/* Blockquotes */
-blockquote {
-  border-left: 3px solid var(--sky);
-  padding-left: 1rem;
-  margin: 1rem 0;
-  opacity: 0.8;
-}
-
 /* Spacing utilities */
 .mb-1 { margin-bottom: 0.5rem; }
 .mb-2 { margin-bottom: 1rem; }
@@ -279,80 +470,113 @@ blockquote {
 .mt-2 { margin-top: 1rem; }
 .mt-3 { margin-top: 1.5rem; }
 
-/* Content boxes for posts and pages — sized to fit comfortable prose width.
-   Listings/home stay full-width. */
+/* Windows. A post or page is the window with the focus: accent border.
+   Sized for a comfortable line length. */
 .post [is-~="view-content"],
 .page [is-~="view-content"] {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+  background-color: rgba(11, 12, 22, 0.92);
   padding: 2rem 2.5rem;
-  margin: 0 auto 1rem;
+  margin: 0 auto var(--gap);
   max-width: 84ch;
-  border: 1px solid rgba(137, 180, 250, 0.2);
-  border-radius: 4px;
+  border: var(--border) solid var(--cyan);
+  border-radius: var(--radius);
 }
 
+/* On the home page every box is a window without focus... */
 .home [is-~="view-content"] {
-  background-color: rgba(255, 255, 255, 0.03) !important;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(137, 180, 250, 0.15);
-  border-radius: 4px;
+  position: relative;
+  background-color: rgba(11, 12, 22, 0.92);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: var(--gap);
+  border: var(--border) solid var(--surface);
+  border-radius: var(--radius);
+  transition: border-color 0.15s;
 }
 
-/* Navigation styling - minimal, let WebTUI handle most */
-.top-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem 1rem;
-  padding: 1rem;
+.home li h3 a {
+  color: inherit;
 }
 
-.site-title {
-  color: var(--green);
-  font-weight: bold;
-  font-size: 1.1rem;
+/* ...until you point at a post: focus follows the mouse. */
+.home li [is-~="view-content"]:hover,
+.home li [is-~="view-content"]:focus-within {
+  border-color: var(--cyan);
 }
 
-.nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 2rem;
-}
-
-.nav-links a {
-  color: var(--foreground0);
+.home li [is-~="view-content"]:hover h3 a,
+.home li [is-~="view-content"]:focus-within h3 a {
+  color: var(--cyan);
   text-decoration: none;
-  white-space: nowrap;
-  transition: color 0.2s;
 }
 
-.nav-links a:hover {
-  color: var(--sky);
+/* The whole post box is the link, not only its title. */
+.home li h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
 }
 
-/* Footer - will stick to bottom when content is short */
+.home li h3 a:focus-visible {
+  outline: none;
+}
+
+.home h3 {
+  margin-top: 0;
+}
+
+/* The post list is a plain stack of boxes: no list markers, no indent. */
+.home ul {
+  margin: 0;
+}
+
+.home ul > li::before {
+  content: none;
+}
+
+.home ul > li {
+  margin-bottom: 0;
+}
+
+/* Footer sticks to the bottom when the page is short */
 footer {
   margin-top: auto;
 }
 
 footer [is-~="view-content"] {
-  background-color: rgba(0, 0, 0, 0.2) !important;
-  padding: 1rem;
-  border-top: 1px solid rgba(137, 180, 250, 0.2);
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--surface);
 }
 
-/* Small screens: the nested boxes each had their full padding, which left a
-   column of some 25 characters. Give the text the room back. */
+/* Small screens: less padding, slightly smaller type */
 @media (max-width: 640px) {
-  [is-~="view-content"],
-  .terminal-container {
-    padding: 0.5rem;
+  :root {
+    --gap: 0.5rem;
   }
 
-  .nav-links {
-    gap: 0.5rem 1.25rem;
+  body {
+    font-size: 0.9375rem;
+  }
+
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.2rem; }
+
+  .top-nav {
+    padding: 0 0.25rem 0 0.75rem;
+  }
+
+  .nav-links a {
+    padding: 0 0.5rem;
+    min-height: 2.75rem;
+  }
+
+  /* One gap around the windows is enough here. */
+  .terminal-container {
+    padding: 0;
+  }
+
+  footer.terminal-container {
+    padding: 0 0.5rem 0.5rem;
   }
 
   .post [is-~="view-content"],
@@ -360,8 +584,9 @@ footer [is-~="view-content"] {
     padding: 1.25rem 1rem;
   }
 
-  h1 { font-size: 1.5rem; }
-  h2 { font-size: 1.25rem; }
+  .home [is-~="view-content"] {
+    padding: 1rem;
+  }
 
   .post-content table,
   .page-content table {

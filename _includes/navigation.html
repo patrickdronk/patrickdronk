@@ -1,10 +1,16 @@
-<nav>
-    <div box-="round" dim-="full" class="top-nav">
-        <span class="site-title">~/patrickdronk</span>
-        <div class="nav-links">
-            <a href="{{ "/" | relative_url }}">📝 Posts</a>
-            <a href="{{ "/about" | relative_url }}">👤 About</a>
-            <a href="https://github.com/patrickdronk" target="_blank">🔗 GitHub</a>
-        </div>
+{%- comment -%}
+  The bar. Pages are numbered like workspaces on the desktop; the page you are
+  on is lit. "posts" also counts for a single post.
+{%- endcomment -%}
+{%- assign on_posts = false -%}
+{%- if page.url == "/" or page.layout == "post" -%}{%- assign on_posts = true -%}{%- endif -%}
+{%- assign on_about = false -%}
+{%- if page.url contains "/about" -%}{%- assign on_about = true -%}{%- endif -%}
+<nav class="top-nav" aria-label="Main">
+    <a class="site-title" href="{{ "/" | relative_url }}">~/patrickdronk</a>
+    <div class="nav-links">
+        <a href="{{ "/" | relative_url }}"{% if on_posts %} class="is-active"{% endif %}{% if page.url == "/" %} aria-current="page"{% endif %}><span class="space-key">1</span>posts</a>
+        <a href="{{ "/about/" | relative_url }}"{% if on_about %} class="is-active" aria-current="page"{% endif %}><span class="space-key">2</span>about</a>
+        <a href="https://github.com/patrickdronk" target="_blank" rel="noopener"><span class="space-key">3</span>github</a>
     </div>
 </nav>
