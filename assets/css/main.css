@@ -52,6 +52,10 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  /* WebTUI sets word-break: break-all on body, which cuts words in half at the
+     end of a line. Break between words; only split a word that cannot fit. */
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 /* Main outer container */
@@ -222,8 +226,10 @@ blockquote {
 /* Navigation styling - minimal, let WebTUI handle most */
 .top-nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem 1rem;
   padding: 1rem;
 }
 
@@ -235,12 +241,14 @@ blockquote {
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
 }
 
 .nav-links a {
   color: var(--foreground0);
   text-decoration: none;
+  white-space: nowrap;
   transition: color 0.2s;
 }
 
@@ -257,4 +265,25 @@ footer [is-~="view-content"] {
   background-color: rgba(0, 0, 0, 0.2) !important;
   padding: 1rem;
   border-top: 1px solid rgba(137, 180, 250, 0.2);
+}
+
+/* Small screens: the nested boxes each had their full padding, which left a
+   column of some 25 characters. Give the text the room back. */
+@media (max-width: 640px) {
+  [is-~="view-content"],
+  .terminal-container {
+    padding: 0.5rem;
+  }
+
+  .nav-links {
+    gap: 0.5rem 1.25rem;
+  }
+
+  .post [is-~="view-content"],
+  .page [is-~="view-content"] {
+    padding: 1.25rem 1rem;
+  }
+
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
 }
